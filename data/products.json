@@ -1,0 +1,56 @@
+[
+  {
+    "category": "CPU",
+    "options": [
+      { "id": "cpu1", "name": "Intel i5-12400F", "price": 15000 },
+      { "id": "cpu2", "name": "Intel i7-12700F", "price": 25000 },
+      { "id": "cpu3", "name": "AMD Ryzen 5 5600X", "price": 18000 },
+      { "id": "cpu4", "name": "AMD Ryzen 7 5800X", "price": 28000 }
+    ]
+  },
+  {
+    "category": "RAM",
+    "options": [
+      { "id": "ram1", "name": "8GB DDR4 3200MHz", "price": 3000 },
+      { "id": "ram2", "name": "16GB DDR4 3200MHz", "price": 5500 },
+      { "id": "ram3", "name": "32GB DDR4 3200MHz", "price": 11000 },
+      { "id": "ram4", "name": "16GB DDR5 5600MHz", "price": 8000 }
+    ]
+  },
+  {
+    "category": "Graphics Card",
+    "options": [
+      { "id": "gpu1", "name": "GTX 1660 Super", "price": 25000 },
+      { "id": "gpu2", "name": "RTX 3060", "price": 35000 },
+      { "id": "gpu3", "name": "RTX 3070", "price": 55000 },
+      { "id": "gpu4", "name": "RTX 4070", "price": 75000 }
+    ]
+  },
+  {
+    "category": "Storage",
+    "options": [
+      { "id": "storage1", "name": "256GB NVMe SSD", "price": 3500 },
+      { "id": "storage2", "name": "512GB NVMe SSD", "price": 6000 },
+      { "id": "storage3", "name": "1TB NVMe SSD", "price": 9500 },
+      { "id": "storage4", "name": "2TB NVMe SSD", "price": 18000 }
+    ]
+  },
+  {
+    "category": "Motherboard",
+    "options": [
+      { "id": "mb1", "name": "B450M Pro4", "price": 8000 },
+      { "id": "mb2", "name": "B550M Pro4", "price": 12000 },
+      { "id": "mb3", "name": "X570 Gaming Plus", "price": 18000 },
+      { "id": "mb4", "name": "Z690 Gaming X", "price": 22000 }
+    ]
+  },
+  {
+    "category": "Power Supply",
+    "options": [
+      { "id": "psu1", "name": "650W 80+ Bronze", "price": 5500 },
+      { "id": "psu2", "name": "750W 80+ Gold", "price": 8500 },
+      { "id": "psu3", "name": "850W 80+ Gold", "price": 12000 },
+      { "id": "psu4", "name": "1000W 80+ Platinum", "price": 18000 }
+    ]
+  }
+] 

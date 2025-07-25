@@ -1,0 +1,162 @@
+🛒 Project: E-Commerce Product Customizer
+🎯 Goal
+Build a dynamic, customizable product configurator where users can select product parts (e.g. build a PC or T-shirt), see the price update in real-time, add to cart, and proceed to Stripe Checkout (test mode).
+
+📦 Stack
+| Tech                   | Purpose                      |
+| ---------------------- | ---------------------------- |
+| **Next.js**            | React framework + routing    |
+| **TypeScript**         | Type safety                  |
+| **Tailwind CSS**       | UI styling                   |
+| **Zustand** or Context | State management             |
+| **Stripe API**         | Checkout integration         |
+| **Docker** (Optional)  | For local/proxmox deployment |
+
+🧠 Master Prompt (To Paste into Cursor or AI Tool)
+text
+You're building a customizable e-commerce web app using Next.js, TypeScript, Tailwind CSS, and Stripe test mode. The goal is to allow users to dynamically build a product from parts (e.g., custom PC or T-shirt), view real-time pricing, and check out via Stripe.
+
+Please follow this step-by-step structure:
+
+🔹 1. Scaffold the App:
+- Create a Next.js project with TypeScript and Tailwind CSS configured.
+- Create pages: `/`, `/checkout-success`, `/api/create-checkout-session`
+- Setup environment file for Stripe keys.
+
+🔹 2. Product Config:
+- Use a local `products.json` file with data like:
+
+```ts
+[
+  {
+    "category": "CPU",
+    "options": [
+      { "id": "cpu1", "name": "Intel i5", "price": 10000 },
+      { "id": "cpu2", "name": "Intel i7", "price": 15000 }
+    ]
+  },
+  {
+    "category": "RAM",
+    "options": [
+      { "id": "ram1", "name": "8GB", "price": 2500 },
+      { "id": "ram2", "name": "16GB", "price": 4000 }
+    ]
+  }
+]
+
+🔹 3. Product Customizer UI:
+
+Create a ProductCustomizer.tsx component that loops over the product categories in products.json, renders selection UIs for each, and calculates total price based on current selections using Zustand state.
+
+Render dropdowns or radio buttons for each product category.
+
+When user selects an option from each, show the live price total.
+
+Use Zustand or Context API to manage selections and total price.
+
+🔹 4. Cart Logic:
+
+Build a cart sidebar with:
+
+Selected items (name, price)
+
+Total price
+
+Checkout button
+
+Persist cart using Zustand or localStorage.
+
+🔹 5. Stripe Checkout (Test Mode):
+
+Use @stripe/stripe-js and @stripe/react-stripe-js
+
+Create a Next.js API route /api/create-checkout-session that:
+
+Accepts selected product IDs
+
+Matches their prices
+
+Initiates a Stripe session
+
+Redirects to Stripe Checkout
+
+On success, redirect to /checkout-success
+
+🔹 6. UI Styling:
+
+Use Tailwind to make the UI clean and mobile-friendly
+
+Add a responsive header with logo and cart icon
+
+🔹 7. Bonus Features (Optional):
+
+Add quantity support for each item
+
+Allow users to save/load configurations
+
+Add dark mode
+
+🔹 8. Deployment:
+
+Add a Dockerfile to containerize the app
+
+Use docker-compose if needed
+
+Add CI/CD via GitHub Actions for building and deploying to a Proxmox VM
+
+pgsql
+---
+
+## 🧪 Example Stripe Session API Route (Next.js)
+
+```ts
+// pages/api/create-checkout-session.ts
+import Stripe from 'stripe';
+import { NextApiRequest, NextApiResponse } from 'next';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2022-11-15' });
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') return res.status(405).end();
+
+  const { items } = req.body;
+
+  const lineItems = items.map((item: any) => ({
+    price_data: {
+      currency: 'inr',
+      product_data: { name: item.name },
+      unit_amount: item.price * 100,
+    },
+    quantity: 1,
+  }));
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: lineItems,
+    mode: 'payment',
+    success_url: `${req.headers.origin}/checkout-success`,
+    cancel_url: `${req.headers.origin}/`,
+  });
+
+  res.status(200).json({ url: session.url });
+}
+🧱 File Structure Suggestion
+
+product-customizer/
+├── components/
+│   ├── ProductCustomizer.tsx
+│   ├── Cart.tsx
+├── data/
+│   └── products.json
+├── pages/
+│   ├── index.tsx
+│   ├── checkout-success.tsx
+│   └── api/
+│       └── create-checkout-session.ts
+├── store/
+│   └── useCart.ts (Zustand state)
+├── styles/
+├── public/
+├── .env.local
+└── Dockerfile
+
