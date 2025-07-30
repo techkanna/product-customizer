@@ -1,0 +1,30 @@
+name: Deploy to Proxmox
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: |
+          docker build -t product-customizer .
+
+      - name: Stop existing container (if any)
+        run: |
+          docker stop product-customizer || true
+          docker rm product-customizer || true
+
+      - name: Run container
+        run: |
+          docker run -d \
+            --name product-customizer \
+            --restart unless-stopped \
+            -p 3002:3000 \
+            product-customizer
